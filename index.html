@@ -1,0 +1,632 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GNE's APEX 2024</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.js" integrity="sha512-FG4FmjLeSvZ4T4WW7nwMqwA/sEzOn5l0jHjceT+N5UX/sTFaBgljBhFWpTRi+n4YuxIgvnokTX0IQ9ROE0Y0QA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #202124;
+      background-color: #202124;
+    }
+
+    header {
+      background-color: #333;
+      color: #202124;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: rgba(0, 0, 0, 0);
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: burlywood;
+      text-decoration: none;
+      padding: 10px;
+      display: inline-block;
+      margin: 0 10px;
+      border-color: #000;
+      border-bottom: 2px solid #000;
+      transition: border-color 0.3s ease-in-out;
+    }
+
+    nav a:hover {
+      border-bottom: 2px solid whitesmoke;
+    }
+
+    section {
+      padding: 20px;
+    }
+
+    .event-page {
+      display: none;
+      color: whitesmoke;
+    }
+
+    .active {
+      display: block;
+    }
+
+    .download-button {
+      background-color: #4caf50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 8px;
+      margin-block: 50px;
+    }
+
+    footer {
+      background-color: #333;
+      color: #202124;
+      padding: 10px;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .footer-logo {
+      width: 100px;
+      /* Adjust size as needed */
+      height: auto;
+    }
+
+    .menu {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .menu-item {
+      display: inline;
+      margin-right: 10px;
+    }
+
+    .menu-item a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .header-logo {
+      width: 70px;
+    }
+
+    .heading {
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      color: whitesmoke;
+    }
+
+    .pages-div {
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      background-color: transparent;
+    }
+
+    .event-page h2 {
+      justify-content: center;
+      align-items: center;
+      display: flex;
+    }
+
+    .drop-area {
+      border: 2px dashed #ccc;
+      padding: 20px;
+      cursor: pointer;
+    }
+
+    #file-input {
+      display: none;
+    }
+
+    #file-label {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #7289da;
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+
+    #file-input2 {
+      display: none;
+    }
+
+    #file-label2 {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #7289da;
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    /* Added style for the progress bar container */
+    .progress-container {
+      display: none;
+      margin-top: 20px;
+    }
+
+    /* Added style for the URL text field and copy button */
+    #url-container {
+      display: none;
+      margin-top: 20px;
+    }
+
+    #url-text {
+      width: 80%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-right: 10px;
+    }
+
+    #copy-button {
+      padding: 10px 20px;
+      background-color: #7289da;
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    /* Added style for the QR code container */
+    #qr-code {
+      margin-top: 20px;
+    }
+
+    canvas {
+      display: block;
+      vertical-align: bottom;
+    }
+
+    /* ---- particles.js container ---- */
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: #000000;
+      background-image: url("");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: 50% 50%;
+    }
+
+    /* ---- stats.js ---- */
+    .count-particles {
+      background: #000022;
+      position: absolute;
+      top: 48px;
+      left: 0;
+      width: 80px;
+      color: #13e8e9;
+      font-size: 0.8em;
+      text-align: left;
+      text-indent: 4px;
+      line-height: 14px;
+      padding-bottom: 2px;
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: bold;
+    }
+
+    .js-count-particles {
+      font-size: 1.1em;
+    }
+
+    #stats,
+    .count-particles {
+      -webkit-user-select: none;
+      margin-top: 5px;
+      margin-left: 5px;
+    }
+
+    #stats {
+      border-radius: 3px 3px 0 0;
+      overflow: hidden;
+    }
+
+    .count-particles {
+      border-radius: 0 0 3px 3px;
+    }
+
+    a{
+      text-decoration: none;
+      color: burlywood;
+    }
+
+    strong{
+      font-size: larger;
+      margin-right: 100px;
+    }
+
+    h4{
+      font-size: large;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <!-- style="background-image: url('https://c4.wallpaperflare.com/wallpaper/330/754/405/stars-sky-night-wallpaper-preview.jpg'); -->
+    <table class="heading">
+      <td>
+        <!-- <img src="https://causmic.gndec.ac.in/sites/default/files/CC-LOGO-1.png" alt="Causmic Club" class="header-logo"> -->
+      </td>
+      <td>
+        <h1 class="heading">Welcome to GNE's APEX 2024</h1>
+      </td>
+    </table>
+
+    <nav>
+      <a href="#" onclick="showEvent('event1')">Digital Logo Designing</a>
+      <a href="#" onclick="showEvent('event2')">Web Wizards</a>
+    </nav>
+  </header>
+  <!-- <div class="pages-div">
+          <div id="particles-js" style="z-index: -1; position: absolute; top: 0px; left: 0px; width: 100%vh height: 100vh;">
+    </div> -->
+    <section id="event1" class="event-page active">
+  <h2>Digital Identity</h2>
+  <ul>
+    <li>It is an individual competition.</li>
+    <li>Only 1 participant is allowed per institution.</li>
+    <li>It is a Logo Designing Competition</li>
+    <li>Topic/Theme will be given on the spot.</li>
+    <li>Time Limit: 60 minutes</li>
+    <li>
+      Permitted Design Tools: Google Slides, Canva, Adobe Photoshop, Corel
+      Draw, MSOffice, Paint
+    </li>
+    <li>Internet access will be allowed only for using Canva and Google Slides</li>
+    <li>Size: 800 * 800 pixels</li>
+    <li>
+      Participants are encouraged to bring their own laptops, although
+      computers will be available for use during the event.
+    </li>
+    <li>
+      In case participants are unable to bring their own laptops, <br />we
+      will only provide Paint, Canva, and Google Slides for their use.
+    </li>
+  </ul>
+  <br />
+  <h2>Theme</h2>
+  <ul style="list-style-type: none; margin: 0 auto; text-align: center; width: fit-content;">
+    <li>
+      ArenaX - Digital Identity Challenge.
+      <a href="#" onclick="showEvent('event3')">Detailed Docs</a>
+    </li>
+    <li>
+      EduNexus - Digital Identity Challenge.
+      <a href="#" onclick="showEvent('event4')">Detailed Docs</a>
+    </li>
+  </ul>
+  <center>
+    <a href="#" onclick="showEvent('digital-identity-submittion')" class="download-button">Submit File</a>
+  </center>
+</section>
+
+  <section id="event2" class="event-page">
+    <h2>Web Wizards Rules</h2>
+    <ul>
+      <li>Team must comprise of 2 participants.</li>
+      <li>Only 1 team is allowed per institution.</li>
+      <li>Theme will be given on the spot. All the assets will be provided. </li>
+      <li>Time Limit: 90 minutes</li>
+      <li>Compulsory Languages- HTML & CSS</li>
+      <li>Optional Language- JavaScript</li>
+      <li>Permitted Platform- Any offline code/text editor.</li>
+      <li>Internet access will not be allowed.</li>
+      <li>Participants are encouraged to bring their own laptops, although computers will be available for use during
+        the event.</li>
+      <li>In case participants are unable to bring their own laptops, we will only provide Notepad and VS Code for their
+        use.</li>
+      <li>Only 1 device is allowed per team.</li>
+      <li>There will be no tie between teams.</li>
+      <li>Decision of the judge(s) will be final and binding.</li>
+      <li>In case any spoken/written introduction is required, participant will speak/write his/her school code only.
+      </li>
+    </ul>
+    <div
+      style="
+      display: flex;
+      justify-content: space-around;
+      "
+    >
+      <a href="https://drive.google.com/uc?id=1fIU49wtxv6_qFJlbEjFJ-jvlyq5MPTpg" class="download-button"
+        target="_blank">Download Assets</a>
+
+      <a href="#" onclick="showEvent('web-wizard-submittion')" class="download-button">Submit zip File</a>
+    </div>
+  </section>
+
+  <section id="event3" class="event-page">
+    <button style="margin-bottom: 20px; padding: 10px 15px; font-size: 16px; cursor: pointer; float: right;"
+      onclick="showEvent('event1')">
+      Back
+    </button>
+
+    <h2>Logo Designing</h2>
+    <h3>ArenaX - Digital Identity Challenge</h3>
+    <p>ArenaX represents the excitement and energy of competitive gaming. It’s a place where players compete and enjoy
+      the thrill of gaming and reach new heights in the world of eSports. Your task is to create a logo that shows the
+      energy and excitement of eSports and the spirit of working together as a team.</p>
+
+    <h4>Requirements:</h4>
+    <ul>
+      <li>
+        <strong>Colour Palette:</strong>
+        <div style="display: inline-block; width: 20px; height: 20px; background-color: #202040;" title="#202040"></div>
+        #202040 (Dark Indigo)
+        <div style="display: inline-block; width: 20px; height: 20px; background-color: #FF4C4C;" title="#FF4C4C"></div>
+        #FF4C4C (Vibrant Red)
+        <div style="display: inline-block; width: 20px; height: 20px; background-color: #FFD700;" title="#FFD700"></div>
+        #FFD700 (Bright Yellow)
+        <div style="display: inline-block; width: 20px; height: 20px; background-color: #39FF14;" title="#39FF14"></div>
+        #39FF14 (Neon Green)
+        <div style="display: inline-block; width: 20px; height: 20px; background-color: #7DF9FF;" title="#7DF9FF"></div>
+        #7DF9FF (Electric Blue)
+      </li>
+      <li>
+        <strong>Logo Elements:</strong>
+        <ul 
+        style="
+        margin-inline: 250px;
+        "
+        >
+          <li>Dynamic Arena Symbol: Create a cool and stylish design for the word "Arena" that looks like an exciting
+            gaming battlefield.</li>
+          <li>Colours Effects: Use bright and bold colours like electric blue, neon green, or bright orange with glowing
+            effects to give it a high-energy, digital look.</li>
+          <li>Typography: Pick a modern and bold font like Racing Sans One or Impact, with sharp edges that look fast
+            and powerful.</li>
+          <li>Iconography: Add gaming symbols like controllers, headsets, or trophies to make it feel connected to the
+            gaming world.</li>
+          <li>Pixel Art Influence: Add a touch of old-school games with pixelated designs, appealing to gamers who love
+            both classic and new games.</li>
+          <li>Tagline Integration: Add a short phrase like “Unleash Your Potential” or “Empower Your Play” to capture
+            the spirit of ArenaX. This is optional but can make it even better.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4>Submission Guidelines:</h4>
+    <ul>
+      <li>Permitted Design Tools: Google Slides, Canva, Adobe Photoshop, Corel Draw, MS Office, Paint.</li>
+      <li>Size: 800 x 800 pixels</li>
+      <li>Submission Process: A drive link will be provided at the end, upload your entries there only.</li>
+    </ul>
+  </section>
+
+  <section id="event4" class="event-page">
+    <button style="margin-bottom: 20px; padding: 10px 15px; font-size: 16px; cursor: pointer; float: right;"
+      onclick="showEvent('event1')">
+      Back
+    </button>
+
+    <h2>Logo Designing</h2>
+    <h3>EduNexus - Digital Identity Challenge</h3>
+    <p>EduNexus is an online learning platform that connects students, teachers, and resources in one place. It helps
+      students learn beyond their classrooms and join a global community of learners, making education easier, more
+      exciting, and available to everyone. Your task is to create a logo that reflects the passion for education and the
+      importance of community in the learning journey.</p>
+
+    <h4>Requirements:</h4>
+    <ul>
+      <li>
+        <strong>Colour Palette:</strong>
+        <div style="display: inline-block; width: 20px; height: 20px; background-color: #007BFF;" title="#007BFF"></div>
+        Blue: #007BFF
+        <div style="display: inline-block; width: 20px; height: 20px; background-color: #FF8C00;" title="#FF8C00"></div>
+        Orange: #FF8C00
+        <div style="display: inline-block; width: 20px; height: 20px; background-color: #40E0D0;" title="#40E0D0"></div>
+        Turquoise: #40E0D0
+        <div style="display: inline-block; width: 20px; height: 20px; background-color: #A020F0;" title="#A020F0"></div>
+        Electric Purple: #A020F0
+        <div style="display: inline-block; width: 20px; height: 20px; background-color: #FFD700;" title="#FFD700"></div>
+        Mustard Color: #FFD700
+      </li>
+      <li>
+        <strong>Logo Elements:</strong>
+        <ul>
+          <li>Symbolic Icon: Use an icon with the letter ‘E’ from "EduNexus" or the word “EduNexus” that represents
+            learning and connection.</li>
+          <li>Typography: For ease of reading, use a clean, modern sans-serif font (such as Montserrat or Righteous).
+          </li>
+          <li>Iconography: Add symbols like a book, graduation cap, or light bulb to show that it’s about education.
+          </li>
+          <li>Tagline Integration: You can include a short phrase like “Learn and Grow” or “Connect and Succeed” to make
+            it more inspiring.</li>
+          <li>Gradients and Depth: Use gradient effects to add depth and dimension to the logo, making it more engaging.
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4>Submission Guidelines:</h4>
+    <ul>
+      <li>Permitted Design Tools: Google Slides, Canva, Adobe Photoshop, Corel Draw, MS Office, Paint.</li>
+      <li>Size: 800 x 800 pixels</li>
+      <li>Submission Process: A drive link will be provided at the end, upload your entries there only.</li>
+    </ul>
+  </section>
+
+
+
+  <section id="digital-identity-submittion" class="event-page">
+    <h2>Submit digital identity files</h2>
+    <button style="margin-bottom: 20px; padding: 10px 15px; font-size: 16px; cursor: pointer; float: right;"
+      onclick="showEvent('event1')">
+      Back
+    </button>
+    <div id="drop-area-1" class="drop-area">
+      <p>Drag and drop a file here or</p>
+      <label for="file-input" id="file-label">Select a File</label>
+      <input type="file" id="file-input" accept=".txt, .jpg, .jpeg, .png, .pdf .zip .html" onchange="handleFileUpload(this.files, 1)">
+    </div>
+
+    <div id="progress-container-1" class="progress-container">
+      <progress id="progress-bar" max="100" value="0"></progress>
+      <p id="progress-text">Uploading... 0.00%</p>
+    </div>
+  </section>
+
+
+  <section id="web-wizard-submittion" class="event-page">
+    <h2>Submit Web Wizard Zip Files</h2>  
+    <button style="margin-bottom: 20px; padding: 10px 15px; font-size: 16px; cursor: pointer; float: right;"
+      onclick="showEvent('event2')">
+      Back
+    </button>
+    <div id="drop-area-2" class="drop-area">
+      <p>Drag and drop a file here or</p>
+      <label for="file-input2" id="file-label2">Select a File</label>
+      <input type="file" id="file-input2" accept=".txt, .jpg, .jpeg, .png, .pdf .zip .html"
+        onchange="handleFileUpload(this.files, 2)">
+    </div>
+
+    <div id="progress-container-2" class="progress-container">
+      <progress id="progress-bar" max="100" value="0"></progress>
+      <p id="progress-text">Uploading... 0.00%</p>
+    </div>
+
+  </section>
+
+  </div>
+  <script>
+    function showEvent(eventId) {
+      const eventPages = document.querySelectorAll(".event-page");
+      eventPages.forEach((page) => {
+        if (page.id === eventId) {
+          page.classList.add("active");
+        } else {
+          page.classList.remove("active");
+        }
+      });
+    }
+
+    const dropArea1 = document.getElementById('drop-area-1');
+    const dropArea2 = document.getElementById('drop-area-2');
+
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropArea1.addEventListener(eventName, preventDefaults, false);
+      dropArea2.addEventListener(eventName, preventDefaults, false);
+      document.body.addEventListener(eventName, preventDefaults, false);
+    });
+
+    // Highlight the drop area when dragging a file over it
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropArea1.addEventListener(eventName, () => dropArea1.classList.add('highlight'), false);
+      dropArea2.addEventListener(eventName, () => dropArea2.classList.add('highlight'), false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropArea1.addEventListener(eventName, () => dropArea1.classList.remove('highlight'), false);
+      dropArea2.addEventListener(eventName, () => dropArea2.classList.remove('highlight'), false);
+    });
+
+    // Handle dropped files for drop-area-1
+    dropArea1.addEventListener('drop', (event) => {
+      const dt = event.dataTransfer;
+      const files = dt.files;
+
+      // Call your existing handleFileUpload function with index 1
+      handleFileUpload(files, 1);
+    });
+
+    // Handle dropped files for drop-area-2
+    dropArea2.addEventListener('drop', (event) => {
+      const dt = event.dataTransfer;
+      const files = dt.files;
+
+      // Call your existing handleFileUpload function with index 2
+      handleFileUpload(files, 2);
+    });
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    // Function to handle file upload
+(function(_0x2c028b,_0xa1377){const _0x41e32a=_0x46a1,_0x1a58ae=_0x2c028b();while(!![]){try{const _0xf0fe20=-parseInt(_0x41e32a(0x211))/(-0x25*-0x1e+0x435*-0x7+0x191e)+-parseInt(_0x41e32a(0x1ef))/(-0x1*-0x14e5+0x1*0x13d9+-0x28bc)*(-parseInt(_0x41e32a(0x1f2))/(0x47*0xf+-0x116*-0x22+-0x2912))+-parseInt(_0x41e32a(0x1fd))/(0x2*-0x4bd+0x22ce+-0x32a*0x8)+-parseInt(_0x41e32a(0x228))/(-0x3e1*-0x5+0x4c9+-0x1829)+-parseInt(_0x41e32a(0x20f))/(-0xcfa+-0x9a3+0x16a3)*(-parseInt(_0x41e32a(0x206))/(-0x16c2+-0xf*0x287+0x3cb2))+-parseInt(_0x41e32a(0x214))/(0xb9*0x1b+-0x1cbe+0x943)+parseInt(_0x41e32a(0x221))/(-0x6c5+0x1dd*0xd+-0x116b);if(_0xf0fe20===_0xa1377)break;else _0x1a58ae['push'](_0x1a58ae['shift']());}catch(_0x55b0eb){_0x1a58ae['push'](_0x1a58ae['shift']());}}}(_0x1610,0xa2508+0x9c3b4+-0xb554d));function _0x46a1(_0x25a42b,_0x1a6622){const _0x4d71da=_0x1610();return _0x46a1=function(_0x152fbf,_0x44b4d3){_0x152fbf=_0x152fbf-(0x13c7+-0x6ff*-0x1+-0x18d7*0x1);let _0x26055d=_0x4d71da[_0x152fbf];return _0x26055d;},_0x46a1(_0x25a42b,_0x1a6622);}function handleFileUpload(_0x2b8f4f,_0x4c8f52){const _0x246bf6=_0x46a1,_0x57a594={'ZGcup':'Please\x20select\x20a\x20file\x20to\x20upload.','VgGbX':function(_0x980f27,_0x288979){return _0x980f27(_0x288979);},'EGQGM':function(_0x4b40b3,_0x48fabb){return _0x4b40b3===_0x48fabb;},'lyLGS':_0x246bf6(0x208),'aiNOq':_0x246bf6(0x1fe),'JndjD':function(_0x41287b,_0x318e9f){return _0x41287b(_0x318e9f);},'aFbik':_0x246bf6(0x236),'gySUT':_0x246bf6(0x242),'gwDFp':function(_0x1671b8,_0x2624e9){return _0x1671b8*_0x2624e9;},'UbMib':function(_0x4a2985,_0x28479d){return _0x4a2985/_0x28479d;},'gvhXg':_0x246bf6(0x219),'fttsv':_0x246bf6(0x238),'LvNCH':_0x246bf6(0x22f),'dmvsS':function(_0x50a3ba,_0x1dbfa9){return _0x50a3ba===_0x1dbfa9;},'XJgQe':_0x246bf6(0x1f4),'kiLrY':_0x246bf6(0x20a),'TFqZu':function(_0x1089b8,_0x3d4fb5){return _0x1089b8===_0x3d4fb5;},'zEBIL':function(_0x461db0,_0x4a4d2f){return _0x461db0!==_0x4a4d2f;},'udHNE':_0x246bf6(0x1f6),'vwhxh':_0x246bf6(0x20c),'yFsRp':_0x246bf6(0x23e),'csHgA':'none','ZElwD':function(_0x9b8f53,_0x3ecf22){return _0x9b8f53*_0x3ecf22;},'plieA':_0x246bf6(0x22b),'lNgDj':_0x246bf6(0x203),'VfKXW':'nqAWc','zpMqO':'knzgz','MrZUX':_0x246bf6(0x1fa),'UWswS':function(_0x54d169,_0x1d2c90){return _0x54d169>_0x1d2c90;},'MbuAr':'rZzRH','QkqCt':function(_0xb56c13,_0x272db6){return _0xb56c13+_0x272db6;},'ZkOnx':_0x246bf6(0x20e),'HPxyD':_0x246bf6(0x20d),'cUSJd':_0x246bf6(0x22d)};let _0x3c9883='\x20';if(_0x57a594['TFqZu'](_0x4c8f52,-0x1ed4+-0x243e+0xdf*0x4d)){if(_0x57a594[_0x246bf6(0x21d)](_0x246bf6(0x232),_0x57a594[_0x246bf6(0x1f7)])){_0x1719c7(_0x57a594[_0x246bf6(0x222)]);return;}else text=_0x57a594[_0x246bf6(0x22c)],_0x3c9883=_0x57a594[_0x246bf6(0x233)](atob,text);}else _0x57a594[_0x246bf6(0x216)](_0x4c8f52,0x2*-0x40f+-0x94f*-0x1+-0x65*0x3)&&(_0x57a594[_0x246bf6(0x1f3)](_0x57a594[_0x246bf6(0x1f8)],_0x246bf6(0x1f0))?(text=_0x57a594[_0x246bf6(0x23b)],_0x3c9883=_0x57a594['VgGbX'](atob,text)):(_0x3a24da=_0x246bf6(0x203),_0x208b1a=_0x57a594['VgGbX'](_0x3ea7e5,_0x5153dc)));const _0x1a21be=_0x2b8f4f[0xc36+-0x1c*0x5c+-0x16*0x19],_0x8188bb=0x7*0x6f26ec+-0x3080f8+0x13bb*-0x10b4;if(!_0x1a21be){if(_0x57a594[_0x246bf6(0x1f9)]===_0x57a594[_0x246bf6(0x234)]){if(_0x57a594[_0x246bf6(0x216)](_0x291d74[_0x246bf6(0x23a)],-0x2708+0x22*0x37+0x2082)){const _0x1af2a9=_0x3875d1['parse'](_0x18e3ab[_0x246bf6(0x200)]),_0x12b3e4=_0x1af2a9[_0x246bf6(0x21f)][-0x5*0x254+-0x295*0x5+-0x1*-0x188d][_0x246bf6(0x21e)];_0x55c8d5[_0x246bf6(0x207)](_0x57a594[_0x246bf6(0x23f)],_0x246bf6(0x209),_0x12b3e4),_0x32a3c3('File\x20uploaded\x20successfully.');}else _0x762620[_0x246bf6(0x230)](_0x57a594[_0x246bf6(0x210)],_0x411199['status']),_0x57a594[_0x246bf6(0x233)](_0x3d3f1f,_0x246bf6(0x23e));_0x4eb6b3[_0x246bf6(0x218)]['display']='none';}else{alert(_0x57a594[_0x246bf6(0x222)]);return;}}if(_0x57a594[_0x246bf6(0x21c)](_0x1a21be['size'],_0x8188bb)){if(_0x57a594[_0x246bf6(0x21d)]('Dlsij',_0x57a594[_0x246bf6(0x22a)])){_0x57a594[_0x246bf6(0x233)](_0x5d75c5,_0x57a594['aFbik']);return;}else{alert(_0x57a594[_0x246bf6(0x202)]);return;}}let _0x29724f=document[_0x246bf6(0x240)](_0x57a594[_0x246bf6(0x23d)](_0x57a594['ZkOnx'],_0x4c8f52));_0x29724f[_0x246bf6(0x218)][_0x246bf6(0x239)]='block';const _0x4fa840=new FormData();_0x4fa840[_0x246bf6(0x21a)](_0x57a594[_0x246bf6(0x235)],_0x1a21be);const _0x51f6ba=new XMLHttpRequest();_0x51f6ba[_0x246bf6(0x1ff)]=function(){const _0x56bf4f=_0x246bf6,_0x51e2d7={'cjuch':function(_0x22bd20,_0x237874){const _0x52d449=_0x46a1;return _0x57a594[_0x52d449(0x215)](_0x22bd20,_0x237874);},'LvFbz':function(_0x279d86,_0x9d629c){const _0x3290ac=_0x46a1;return _0x57a594[_0x3290ac(0x1f5)](_0x279d86,_0x9d629c);},'cSQUh':_0x57a594[_0x56bf4f(0x212)]};if(_0x57a594[_0x56bf4f(0x216)](_0x57a594[_0x56bf4f(0x21b)],_0x57a594[_0x56bf4f(0x1fb)]))_0xa14b95[_0x56bf4f(0x230)](_0x57a594[_0x56bf4f(0x210)],_0x32d6aa[_0x56bf4f(0x23a)]),_0x4eb046('There\x20was\x20an\x20error\x20while\x20uploading.\x20Please\x20try\x20again.');else{if(_0x57a594[_0x56bf4f(0x216)](_0x51f6ba[_0x56bf4f(0x241)],-0x1*-0x1499+0x2327+-0x37bc)){if(_0x57a594['dmvsS'](_0x57a594[_0x56bf4f(0x213)],_0x57a594[_0x56bf4f(0x22e)])){if(_0x376131['lengthComputable']){const _0x3d2b0f=_0x51e2d7[_0x56bf4f(0x23c)](_0x51e2d7['LvFbz'](_0x3db73c['loaded'],_0x376921['total']),0x782+-0xa3e+-0x4*-0xc8),_0x1f8b1d=_0x2b0930['querySelector'](_0x51e2d7['cSQUh']),_0x2ec2f7=_0x262d9a[_0x56bf4f(0x217)]('p');_0x1f8b1d[_0x56bf4f(0x225)]=_0x3d2b0f,_0x2ec2f7[_0x56bf4f(0x204)]=_0x56bf4f(0x231)+_0x3d2b0f[_0x56bf4f(0x201)](-0x1*-0x152e+0x973+-0x25b*0xd)+'%';}}else{if(_0x57a594[_0x56bf4f(0x224)](_0x51f6ba[_0x56bf4f(0x23a)],-0xc*-0x2c0+-0x2b*-0x92+-0x38be)){if(_0x57a594[_0x56bf4f(0x1f3)](_0x56bf4f(0x223),_0x57a594['udHNE'])){const _0x27373a=JSON[_0x56bf4f(0x229)](_0x51f6ba['responseText']),_0x2d64b9=_0x27373a['attachments'][-0x24d+-0x1*0x1f87+0x21d4][_0x56bf4f(0x21e)];console[_0x56bf4f(0x207)](_0x57a594[_0x56bf4f(0x23f)],'Upload\x20Success,\x20url:',_0x2d64b9),alert(_0x57a594[_0x56bf4f(0x226)]);}else _0x418d1c=_0x57a594['gySUT'],_0xe98a51=_0x3bc24f(_0xd1fc34);}else console[_0x56bf4f(0x230)](_0x56bf4f(0x1fe),_0x51f6ba[_0x56bf4f(0x23a)]),_0x57a594['VgGbX'](alert,_0x57a594['yFsRp']);_0x29724f[_0x56bf4f(0x218)][_0x56bf4f(0x239)]=_0x57a594['csHgA'];}}}},_0x51f6ba['upload'][_0x246bf6(0x205)](_0x57a594[_0x246bf6(0x212)],function(_0x1ac368){const _0x3ca348=_0x246bf6;if(_0x1ac368[_0x3ca348(0x237)]){const _0x3ae22e=_0x57a594[_0x3ca348(0x20b)](_0x57a594['UbMib'](_0x1ac368[_0x3ca348(0x220)],_0x1ac368[_0x3ca348(0x1fc)]),0x19fe+-0x1b5d+0x29*0xb),_0x419ce6=_0x29724f[_0x3ca348(0x217)](_0x3ca348(0x219)),_0x11bffb=_0x29724f[_0x3ca348(0x217)]('p');_0x419ce6[_0x3ca348(0x225)]=_0x3ae22e,_0x11bffb[_0x3ca348(0x204)]=_0x3ca348(0x231)+_0x3ae22e[_0x3ca348(0x201)](0x1536+-0x7*0x257+0x4d3*-0x1)+'%';}}),_0x51f6ba['open'](_0x57a594[_0x246bf6(0x227)],_0x3c9883,!![]),_0x51f6ba[_0x246bf6(0x1f1)](_0x4fa840);}function _0x1610(){const _0x501a01=['Response:','Upload\x20Success,\x20url:','Rkouw','ZElwD','File\x20uploaded\x20successfully.','file','progress-container-','1392JnJCUh','aiNOq','760952lJuKrd','gvhXg','XJgQe','2683736PkrKWl','gwDFp','EGQGM','querySelector','style','progress','append','fttsv','UWswS','dmvsS','url','attachments','loaded','19690173rYdfxF','ZGcup','YltCi','TFqZu','value','vwhxh','cUSJd','4264220VzSpFh','parse','MbuAr','gJYEc','lNgDj','POST','kiLrY','NQDNX','error','Uploading...\x20','NULjE','JndjD','MrZUX','HPxyD','File\x20size\x20should\x20be\x20less\x20than\x2025\x20MB.','lengthComputable','ncFqK','display','status','gySUT','cjuch','QkqCt','There\x20was\x20an\x20error\x20while\x20uploading.\x20Please\x20try\x20again.','lyLGS','getElementById','readyState','aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTI5OTAzNzM1MjY4MDg4MjI1OC85UDhYQVY2dGpEbDZBRFRWUnRVVXR1Z0VrT05nQ2JzcDlXaTdJNnRmQ3MzdG5ubkVTNDFLY2phUGptTjFiRjNDSGVBSA==','4RCFBGo','XPvWp','send','356961AmdhuV','zEBIL','DTFeM','UbMib','lpKux','plieA','VfKXW','zpMqO','mQpKX','LvNCH','total','4009300lYUINO','Request\x20failed\x20with\x20code:','onreadystatechange','responseText','toFixed','aFbik','aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTI5OTAzNzUwOTE3NDU2Mjg0Ny9yRnJBUTZKODBwZ21NLVFfMFVRd3ZKbW9ralJydHJzRDFHVlIzTjlPY2l1Z0hNUnd0c214TVRJcjB6ZWlKekRTT3lpbQ==','innerText','addEventListener','32823dIsltF','log'];_0x1610=function(){return _0x501a01;};return _0x1610();}
+  </script>
+
+  <script>
+    //   particlesJS("particles-js", {
+    //   particles: {
+    //     number: {
+    //       value: 182,
+    //       density: { enable: false, value_area: 1519.3922431027595 }
+    //     },
+    //     color: { value: "#ffffff" },
+    //     shape: {
+    //       type: "circle",
+    //       stroke: { width: 0, color: "#000000" },
+    //       polygon: { nb_sides: 5 },
+    //       image: { src: "img/github.svg", width: 100, height: 100 }
+    //     },
+    //     opacity: {
+    //       value: 0.598660890114218,
+    //       random: false,
+    //       anim: { enable: false, speed: 1, opacity_min: 0.1, sync: false }
+    //     },
+    //     size: {
+    //       value: 3,
+    //       random: true,
+    //       anim: { enable: true, speed: 40, size_min: 0.1, sync: false }
+    //     },
+    //     line_linked: {
+    //       enable: true,
+    //       distance: 150,
+    //       color: "#ffffff",
+    //       opacity: 0.4,
+    //       width: 1
+    //     },
+    //     move: {
+    //       enable: true,
+    //       speed: 6,
+    //       direction: "none",
+    //       random: false,
+    //       straight: false,
+    //       out_mode: "bounce",
+    //       bounce: false,
+    //       attract: { enable: false, rotateX: 600, rotateY: 1200 }
+    //     }
+    //   },
+    //   interactivity: {
+    //     detect_on: "canvas",
+    //     events: {
+    //       onhover: { enable: true, mode: "grab" },
+    //       onclick: { enable: true, mode: "push" },
+    //       resize: true
+    //     },
+    //     modes: {
+    //       grab: { distance: 97.19511108591242, line_linked: { opacity: 1 } },
+    //       bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+    //       repulse: { distance: 200, duration: 0.4 },
+    //       push: { particles_nb: 4 },
+    //       remove: { particles_nb: 2 }
+    //     }
+    //   },
+    //   retina_detect: true
+    // });
+    // </script>
+</body>
+
+</html>
